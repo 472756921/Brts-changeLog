@@ -1,0 +1,63 @@
+const chalk = require("chalk");
+const fs = require("fs");
+const shell = require("shelljs");
+const execFile = require("child_process").execFile;
+const { createIfMissing, writeFile } = require("../src/file-write");
+const { getCommitType } = require("../src/utils");
+const args = require("../src/config");
+const getVersion = require("../src/version");
+
+const segmentationInItem = ",";
+const segmentationInList = "----------";
+const gitArg = [`--pretty=format:{"hash":"%H"${segmentationInItem}"gitTags":"%d"${segmentationInItem}"committerDate":"%ai"${segmentationInItem}"title":"%s"${segmentationInItem}"message":"%b"${segmentationInItem}"author":"%an"}${segmentationInList}`];
+
+const child = execFile(
+	"git",
+	["log", gitArg[0]],
+	{
+		cwd: process.cwd(),
+		maxBuffer: Infinity,
+	},
+	(err, stdout, stderr) => {
+		if (err) {
+			console.log(chalk.red("Git not found"));
+			return false;
+		}
+		// 获取当前版本号（如果为空则创建版本号)
+		const newVersion = getVersion();
+
+		stdout += "\n";
+
+		let gits = stdout.split(segmentationInList + "\n");
+		let newGits = {},
+			tagIndex = 0,
+			version = newVersion;
+		newGits[version] = {};
+		gits = gits.filter((_) => _.indexOf("Merge branch") === -1);
+		gits = gits.map((_) => {
+			if (_) {
+				_ = _.replace(/[\r\n\']/g, "");
+				const temp = JSON.parse(_);
+				const gitInfo = { ...temp, type: getCommitType(temp.title) };
+				const gitInfoDate = gitInfo.committerDate.split(" ")[0];
+				if (gitInfo.gitTags) {
+					tagIndex += 1;
+					version = gitInfo.gitTags;
+					newGits[version] = {};
+				}
+
+				let dates = newGits[version];
+				if (!dates.hasOwnProperty(gitInfoDate)) {
+					dates[gitInfoDate] = { fix: [], feat: [], docs: [], style: [], refactor: [], perf: [], test: [], build: [], ci: [], revert: [], chore: [], undefined: [] };
+				}
+				let dateTypes = dates[gitInfoDate];
+				dateTypes[gitInfo.type].push(gitInfo);
+
+				return newGits;
+			}
+		});
+
+		createIfMissing(args);
+		// writeFile(args.infile, JSON.stringify(gits));
+	}
+);

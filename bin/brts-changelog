@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+const chalk = require("chalk");
+const program = require("commander");
+const { getPackageVersion, getPackageName } = require("../src/utils");
+
+console.log();
+console.log(chalk.green(`Welcome used ${getPackageName()} - ${getPackageVersion()}`));
+console.log();
+
+program.version(require("../package").version).usage("<command> [options]").command("init [name]", "generate a new project");
+
+// 解析命令行参数
+program.parse(process.argv);

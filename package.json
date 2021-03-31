@@ -1,0 +1,34 @@
+{
+	"name": "brt-changelog",
+	"version": "1.0.0",
+	"description": "changelog 生成器",
+	"main": "index.js",
+	"bin": {
+		"brts-changeLog": "./bin/brts-changelog",
+		"brts-changelog-init": "./bin/brts-changelog-init"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/472756921/Brts-changeLog.git"
+	},
+	"keywords": [
+		"git",
+		"changeLog"
+	],
+	"author": "Benson",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/472756921/Brts-changeLog/issues"
+	},
+	"homepage": "https://github.com/472756921/Brts-changeLog#readme",
+	"dependencies": {
+		"chalk": "^4.1.0",
+		"commander": "^7.2.0",
+		"fs": "0.0.1-security",
+		"fs-access": "^2.0.0",
+		"shelljs": "^0.8.4"
+	}
+}
