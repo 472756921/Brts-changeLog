@@ -2,7 +2,7 @@ const chalk = require("chalk");
 const fs = require("fs");
 const shell = require("shelljs");
 const execFile = require("child_process").execFile;
-const { createIfMissing, writeFile } = require("../src/file-write");
+const { createIfMissing, writeFileFormat } = require("../src/file-write");
 const { getCommitType } = require("../src/utils");
 const args = require("../src/config");
 const getVersion = require("../src/version");
@@ -34,7 +34,8 @@ const child = execFile(
 			version = newVersion;
 		newGits[version] = {};
 		gits = gits.filter((_) => _.indexOf("Merge branch") === -1);
-		gits = gits.map((_) => {
+		// 整理 git 信息
+		gits.map((_) => {
 			if (_) {
 				_ = _.replace(/[\r\n\']/g, "");
 				const temp = JSON.parse(_);
@@ -51,13 +52,11 @@ const child = execFile(
 					dates[gitInfoDate] = { fix: [], feat: [], docs: [], style: [], refactor: [], perf: [], test: [], build: [], ci: [], revert: [], chore: [], undefined: [] };
 				}
 				let dateTypes = dates[gitInfoDate];
-				dateTypes[gitInfo.type].push(gitInfo);
 
-				return newGits;
+				dateTypes[gitInfo.type].push(gitInfo);
 			}
 		});
-
 		createIfMissing(args);
-		// writeFile(args.infile, JSON.stringify(gits));
+		writeFileFormat(args.infile, newGits);
 	}
 );
