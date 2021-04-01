@@ -55,7 +55,7 @@ CHANGELOG-BRTS.md 中将展示 ['fix','feat','style'] 三类信息
     version:''       // 项目版本信息（默认创建 1.0.0）
 }
 ```
-完成上述配置后，使用 shell 工具执行 brts-changelog init 变可生产 CHANGELOG-BRTS.md
+完成上述配置后，使用 shell 工具执行 brts-changelog init 可生成 CHANGELOG-BRTS.md
 
 ---
 
