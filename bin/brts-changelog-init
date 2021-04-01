@@ -67,7 +67,7 @@ Promise.all([p1, p2]).then((res) => {
 			});
 			createIfMissing(args);
 			const fileContent = writeFileFormat(args.infile, newGits, res[1], getissuesUrl());
-			writeFile("cgt.md", fileContent);
+			writeFile(args.infile, fileContent);
 		}
 	);
 });

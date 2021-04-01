@@ -1,3 +1,3 @@
-const defaults = { infile: "CHANGELOG.md", showType: ["fix", "feat", "style"], repository: "", issues: "" };
+const defaults = { infile: "CHANGELOG-BRTS.md", showType: ["fix", "feat", "style"], repository: "", issues: "" };
 
 module.exports = defaults;
