@@ -29,6 +29,7 @@
 		"commander": "^7.2.0",
 		"fs": "0.0.1-security",
 		"fs-access": "^2.0.0",
+		"inquirer": "^8.0.0",
 		"shelljs": "^0.8.4"
 	}
 }

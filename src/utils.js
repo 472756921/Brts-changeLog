@@ -1,5 +1,25 @@
 const path = require("path");
 
+//去掉空格
+function removeSpace(data, all) {
+	if (all) {
+		return data.replace(/\s+/g, "");
+	}
+	return data.replace(/^\s+|\s+$/g, "");
+}
+//去掉指定小括号
+function removeBrackets(data) {
+	if (typeof data != "string") {
+		return "未知改动";
+	}
+	try {
+		let a = /\((.+?)\)/g.exec(data);
+		return a[1] + ":" + data.split(":")[1];
+	} catch (error) {
+		return data;
+	}
+}
+
 // URL校准根目录
 function getRootPath() {
 	return path.resolve(__dirname, "./../");
@@ -56,6 +76,29 @@ function getCommitType(message) {
 	}
 }
 
+function versionFormat(data) {
+	const pattern = /[:\?](.*[a-z||0-9])/;
+	try {
+		return removeSpace(pattern.exec(data)[1], true);
+	} catch (error) {
+		return "无版本";
+	}
+}
+
+function repositoryFormat(data) {
+	if (typeof data === "string") {
+		return data;
+	} else {
+		if (data.type === "git") {
+			return data.url.split("+")[1].split(".git")[0];
+		}
+	}
+}
+
 exports.getPackageName = getPackageName;
 exports.getPackageVersion = getPackageVersion;
+exports.removeSpace = removeSpace;
 exports.getCommitType = getCommitType;
+exports.versionFormat = versionFormat;
+exports.removeBrackets = removeBrackets;
+exports.repositoryFormat = repositoryFormat;
