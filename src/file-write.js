@@ -16,9 +16,14 @@ function createIfMissing(args) {
 	}
 }
 
-function writeFile(filePath, content) {
-	console.log(chalk.green(`created file ${filePath} in ${path.resolve(".")}`));
-	fs.writeFileSync(filePath, content, "utf8");
+function writeFile(filePath, content, expName) {
+	if (expName) {
+		console.log(chalk.green(`created file CHANGELOG-BRTS(${expName}).md in ${path.resolve(".")}`));
+		fs.writeFileSync(`CHANGELOG-BRTS(${expName}).md`, content, "utf8");
+	} else {
+		console.log(chalk.green(`created file ${filePath} in ${path.resolve(".")}`));
+		fs.writeFileSync(filePath, content, "utf8");
+	}
 }
 
 function writeFileFormat(filePath, content, repository, issuesUrl) {

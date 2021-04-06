@@ -11,6 +11,20 @@ const segmentationInItem = ",";
 const segmentationInList = "----------";
 const gitArg = [`--pretty=format:{"hash":"%H"${segmentationInItem}"gitTags":"%d"${segmentationInItem}"committerDate":"%ai"${segmentationInItem}"title":"%s"${segmentationInItem}"message":"%b"${segmentationInItem}"author":"%an"}${segmentationInList}`];
 
+const userPrams = process.argv.slice(2);
+let userConfig = {};
+if (userPrams.length > 0) {
+	userPrams.map((it) => {
+		if (it.indexOf("=") !== -1 && it.indexOf("--") !== -1) {
+			let temp = it.split("=");
+			let to = {};
+			const key = temp[0].slice(2);
+			to[key] = temp[1].toLowerCase();
+			userConfig = { ...userConfig, ...to };
+		}
+	});
+}
+
 // 获取当前版本号（如果为空则创建版本号)
 const p1 = new Promise((res, rej) => {
 	const newVersion = getVersion();
@@ -49,6 +63,10 @@ Promise.all([p1, p2]).then((res) => {
 					_ = _.replace(/[\r\n\']/g, "");
 					const temp = JSON.parse(_);
 					const gitInfo = { ...temp, type: getCommitType(temp.title) };
+
+					if (userConfig.username && userConfig.username !== gitInfo.author.toLowerCase()) {
+						return false;
+					}
 					const gitInfoDate = gitInfo.committerDate.split(" ")[0];
 					if (gitInfo.gitTags) {
 						tagIndex += 1;
@@ -67,7 +85,7 @@ Promise.all([p1, p2]).then((res) => {
 			});
 			createIfMissing(args);
 			const fileContent = writeFileFormat(args.infile, newGits, res[1], getissuesUrl());
-			writeFile(args.infile, fileContent);
+			writeFile(args.infile, fileContent, userConfig.username);
 		}
 	);
 });

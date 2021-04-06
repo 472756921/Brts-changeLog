@@ -56,6 +56,7 @@ CHANGELOG-BRTS.md 中将展示 ['fix','feat','style'] 三类信息
 }
 ```
 完成上述配置后，使用 shell 工具执行 brts-changelog init 可生成 CHANGELOG-BRTS.md
+命令参数加入 --username=   可指定生成某人的提交记录 Log
 
 ---
 
