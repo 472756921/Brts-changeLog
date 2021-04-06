@@ -1,4 +1,8 @@
 ## **无版本** 
+  ### **2021-04-06** 
+  ### feat
+ + feat:新增按提交者姓名生成changeLogg ([ee28855](https://github.com/472756921/Brts-changeLog/commit/ee288550b720c42f3f0b20834945d35cb37308c1)) - BensonChen 
+
   ### **2021-04-01** 
   ### feat
  + feat:完善readme.md ([c5f6e91](https://github.com/472756921/Brts-changeLog/commit/c5f6e91f4487ea9a305571385167eed394447cf4)) - BensonChen 
