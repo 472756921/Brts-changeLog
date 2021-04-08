@@ -1,6 +1,6 @@
 {
 	"name": "brts-changelog",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "changelog 生成器",
 	"main": "index.js",
 	"bin": {
